@@ -1,0 +1,29 @@
+{% load static %}
+{% for field in form %}
+    {% if field.widget_type == "checkbox" %}
+        <div class="form-group">
+            <label class="custom-switch form-switch me-5">
+                <span class="custom-switch-description">{{ field.label_tag }}</span>
+                <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}"
+                       class="custom-switch-input documento" {% if field.initial %}checked{% endif %} >
+                <span class="custom-switch-indicator custom-switch-indicator-lg"></span>
+            </label>
+        </div>
+    {% elif field.widget_type == "clearablefile" %}
+        <div class="input-group is-invalid">
+            <div class="form-file">
+                <input type="file" class="form-control" id="id_{{ field.name }}" name="{{ field.name }}" {% if field.field.required %}required{% endif %}>
+                <label
+                    for="val{{ field.name }}1"></label>
+            </div>
+        </div>
+        <br>
+    {% else %}
+        <div class="col-xl-12 mb-3">
+            <div class="form-floating">
+                <input placeholder="" type="{{ field.field.widget.input_type }}" class="form-control" id="id_{{ field.name }}" name="{{ field.name }}" {% if field.field.required %}required{% endif %}>
+                <label for="id_{{ field.name }}">{{ field.label_tag }}</label>
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}

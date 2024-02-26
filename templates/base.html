@@ -17,7 +17,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="images/brand/favicon.ico">
 
     <!-- TITLE -->
-    <title>Sash – Bootstrap 5 Admin & Dashboard Template </title>
+    <title>{% block title %}Sash – Bootstrap 5 Admin & Dashboard Template {% endblock %} | TCM</title>
 
     {% block styles %}
     <!-- BOOTSTRAP CSS -->
@@ -433,11 +433,11 @@
                 <div class="app-sidebar">
                     <div class="side-header">
                         <a class="header-brand1" href="index.html">
-                            <img src="images/brand/logo-white.png" class="header-brand-img desktop-logo" alt="logo">
-                            <img src="images/brand/icon-white.png" class="header-brand-img toggle-logo"
+                            <img src="{% static 'images/brand/logo-white.png' %}" class="header-brand-img desktop-logo" alt="logo">
+                            <img src="{% static 'images/brand/icon-white.png' %}" class="header-brand-img toggle-logo"
                                 alt="logo">
-                            <img src="images/brand/icon-dark.png" class="header-brand-img light-logo" alt="logo">
-                            <img src="images/brand/logo-dark.png" class="header-brand-img light-logo1"
+                            <img src="{% static 'images/brand/icon-dark.png' %}" class="header-brand-img light-logo" alt="logo">
+                            <img src="{% static 'images/brand/logo-dark.png' %}" class="header-brand-img light-logo1"
                                 alt="logo">
                         </a>
                         <!-- LOGO -->
@@ -477,7 +477,7 @@
                             </div>
                         </div>
                         <!-- PAGE-HEADER END -->
-
+                        {% block content %}
                         <!-- ROW-1 -->
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
@@ -2992,6 +2992,7 @@
                                 </div>
                             </div>
                         </div>
+                        {% endblock %}
                         <!-- ROW-4 END -->
                     </div>
                     <!-- CONTAINER END -->
