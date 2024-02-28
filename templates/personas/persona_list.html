@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{titulo_page}}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Inicio</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Personas</li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Listar Personas</h3>
+            </div>
+            <div class="card-body">{% csrf_token %}
+                <table class="table table-bordered text-nowrap border-bottom" id="responsive-datatable">
+                    <thead>
+                        <tr>
+                            <th class="wd-15p border-bottom-0">Expediente</th>
+                            <th class="wd-15p border-bottom-0">Nombre</th>
+                            <th class="wd-20p border-bottom-0">Apellidos</th>
+                            <th class="wd-15p border-bottom-0">Carnet</th>
+                            <th class="wd-10p border-bottom-0">Cargo</th>
+                            <th class="wd-25p border-bottom-0">Disponible</th>
+                            <th class="wd-25p border-bottom-0">Observación</th>
+                            <th class="wd-25p border-bottom-0"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for persona in personas %}
+                            <tr>
+                                <td class="wd-15p border-bottom-0">{{persona.expediente}}</td>
+                                <td class="wd-15p border-bottom-0">{{persona}}</td>
+                                <td class="wd-15p border-bottom-0">{{persona.apellidos}}</td>
+                                <td class="wd-15p border-bottom-0">{{persona.carnet}}</td>
+                                <td class="wd-15p border-bottom-0">{{persona.cargo.nombre}}</td>
+                                <td class="wd-15p border-bottom-0">
+                                    {% if persona.disponible %}
+                                        <div class="form-group">
+                                            <label class="custom-switch form-switch">
+                                                <input disabled type="checkbox" name="disponible" class="custom-switch-input" checked>
+                                                <span class="custom-switch-indicator"> </span>
+                                                </label>
+                                        </div>
+                                    {% else %}
+                                    <div class="form-group">
+                                        <label class="custom-switch form-switch">
+                                            <input disabled type="checkbox" name="disponible" class="custom-switch-input">
+                                            <span class="custom-switch-indicator"> </span>
+                                            </label>
+                                    </div>
+                                    {% endif %}
+                                </td>
+                                <td class="wd-15p border-bottom-0">{{persona.observacion|default_if_none:""}}</td>
+                                <td class="wd-15p border-bottom-0">
+                                    <a class="p-2" data-toggle="tooltip" data-placement="top" title="Editar"
+                                    href="{% url 'core:persona-editar' persona.id %}">
+                                     <i class="fa fa-pencil" style="color: #06415e"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

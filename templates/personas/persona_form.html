@@ -3,16 +3,102 @@
 
 {% block title %}{{titulo_page}}{% endblock %}
 
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Inicio</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Personas</li>
+    </ol>
+{% endblock %}
+
 {% block content %}
 <div class="row">
-    <div class="col-md-12 col-xl-12">
+    <div class="col-md-6 col-xl-6">
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Adicionar Persona</h3>
             </div>
-            <div class="card-body">
+            <div class="card-body">{% csrf_token %}
                 <form class="needs-validation" method="post" enctype="multipart/form-data" id="uniForm">
-                    {% include 'form_snippet.html' with form=persona_form %}
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div class="form-floating">
+                            <input autocomplete="off" placeholder="" type="text" class="form-control" id="nombre" name="nombre" value={{persona}}>
+                            <label for="nombre">Nombre</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-floating">
+                            <input autocomplete="off" placeholder="" type="text" class="form-control" id="apellidos" name="apellidos" value={{persona.apellidos}}>
+                            <label for="apellidos">Apellidos</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-floating">
+                            <input autocomplete="off" placeholder="" type="number" class="form-control" id="expediente" name="expediente" value={{persona.expediente}}>
+                            <label for="expediente">Expediente</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-floating">
+                            <input autocomplete="off" placeholder="" type="number" class="form-control" id="carnet" name="carnet" value={{persona.carnet}}>
+                            <label for="carnet">Carnet Identidad</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-floating">
+                            <input autocomplete="off" placeholder="" type="text" class="form-control" id="usuario" name="usuario" value={{persona.usuario}}>
+                            <label for="usuario">Usuario</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipo">Cargo</label>
+                        <select class="form-control custom-select form-select select2" data-bs-placeholder="Select" name="cargo" id="cargo" required>
+                            <option value="">Seleccione un cargo</option>
+                            {% for cargo in cargos%}
+                                <option value="{{cargo.id}}" {% if persona.cargo.id == cargo.id %} selected {% endif %}>{{cargo.nombre}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-floating">
+                            <input autocomplete="off" placeholder="" type="text" class="form-control" id="direccion" name="direccion" value={{persona.direccion}}>
+                            <label for="direccion">Dirección</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-floating">
+                            <input autocomplete="off" placeholder="" type="number" class="form-control" id="movil" name="movil" value={{persona.movil}}>
+                            <label for="movil">Teléfono Móvil</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-floating">
+                            <input autocomplete="off" placeholder="" type="number" class="form-control" id="telefono" name="telefono" value={{persona.telefono}}>
+                            <label for="telefono">Teléfono Fijo</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="custom-switch form-switch">
+                            <span style="margin-right: 0.2em" class="custom-switch-description">Instructor</span> 
+                            <input type="checkbox" name="instructor" class="custom-switch-input" {% if persona.instructor %}checked{%endif%}>
+                             <span class="custom-switch-indicator"> </span>
+                            </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="custom-switch form-switch">
+                            <span style="margin-right: 0.2em" class="custom-switch-description">Disponible</span> 
+                            <input type="checkbox" name="disponible" class="custom-switch-input" {% if persona.disponible %}checked{%endif%}>
+                             <span class="custom-switch-indicator"> </span>
+                            </label>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-floating">
+                            <input autocomplete="off" rows="10" placeholder="" type="textarea" class="form-control" id="observacion" name="observacion" value={{persona.observacion}}>
+                            <label for="observacion">Observaciones</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" value="actualizar" name="guardar">Guardar
+                    </button>
                 </form>
             </div>
         </div>

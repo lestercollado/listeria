@@ -13,7 +13,7 @@ $(function () {
 
     /* Circle-progress-1 */
     $('#circle-1').circleProgress({
-        value: 0.64,
+        value: 1,
         size: 70,
         fill: {
             color: ["#09ad95"]

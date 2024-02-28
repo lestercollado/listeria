@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{titulo_page}}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Inicio</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Brigadas</li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Listar Brigadas</h3>
+            </div>
+            <div class="card-body">{% csrf_token %}
+                <table class="table table-bordered text-nowrap border-bottom" id="responsive-datatable">
+                    <thead>
+                        <tr>
+                            <th class="wd-15p border-bottom-0">Expediente</th>
+                            <th class="wd-15p border-bottom-0">Persona</th>
+                            <th class="wd-15p border-bottom-0">Turno</th>
+                            <th class="wd-15p border-bottom-0">Orden</th>
+                            <th class="wd-25p border-bottom-0"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for brigada in brigadas %}
+                            <tr>
+                                <td class="wd-15p border-bottom-0">{{brigada.persona.expediente}}</td>
+                                <td class="wd-15p border-bottom-0">{{brigada.persona}}</td>
+                                <td class="wd-15p border-bottom-0">{{brigada.turno.nombre}}</td>
+                                <td class="wd-15p border-bottom-0">{{brigada.orden}}</td>                             
+                                <td class="wd-15p border-bottom-0">
+                                    <a class="p-2" data-toggle="tooltip" data-placement="top" title="Editar"
+                                    href="{% url 'core:brigada-editar' brigada.id %}">
+                                     <i class="fa fa-pencil" style="color: #06415e"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+
+{% extends 'base.html' %}
+
+{% block title %}{{titulo_page}}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Inicio</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Afectaciones Personales</li>
+    </ol>
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 col-xl-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Adicionar Afectaciones a Persona</h3>
+            </div>
+            <div class="card-body">{% csrf_token %}
+                <form class="needs-validation" method="post" enctype="multipart/form-data" id="uniForm">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="tipo">Persona</label>
+                        <select class="form-control custom-select form-select select2" data-bs-placeholder="Select" name="persona" id="persona" required>
+                            <option value="">Seleccione una persona</option>
+                            {% for persona in personas%}
+                                <option value="{{persona.id}}" {% if afect_personas.persona.id == persona.id %} selected {% endif %}>{{persona}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipo">Afectación</label>
+                        <select class="form-control custom-select form-select select2" data-bs-placeholder="Select" name="afectacion" id="afectacion" required>
+                            <option value="">Seleccione una afectación</option>
+                            {% for afectacion in afectaciones%}
+                                <option value="{{afectacion.id}}" {% if afect_personas.afectacion.id == afectacion.id %} selected {% endif %}>{{afectacion.nombre}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-floating">
+                            <input autocomplete="off" placeholder="" type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" value="{{afect_personas.fecha_inicio|date:'Y-m-d'}}">
+                            <label for="codigo">Fecha Inicio</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-floating">
+                            <input autocomplete="off" placeholder="" type="date" class="form-control" id="fecha_fin" name="fecha_fin" value="{{afect_personas.fecha_fin|date:'Y-m-d'}}">
+                            <label for="codigo">Fecha Fin</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" value="actualizar" name="guardar">Guardar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{titulo_page}}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Inicio</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Turnos</li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Listar Turnos</h3>
+            </div>
+            <div class="card-body">{% csrf_token %}
+                <table class="table table-bordered text-nowrap border-bottom" id="responsive-datatable">
+                    <thead>
+                        <tr>
+                            <th class="wd-15p border-bottom-0">Nombre</th>
+                            <th class="wd-15p border-bottom-0">Código</th>
+                            <th class="wd-15p border-bottom-0">Tipo</th>
+                            <th class="wd-20p border-bottom-0">Activo</th>
+                            <th class="wd-25p border-bottom-0"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for turno in turnos %}
+                            <tr>
+                                <td class="wd-15p border-bottom-0">{{turno.nombre}}</td>
+                                <td class="wd-15p border-bottom-0">{{turno.codigo}}</td>
+                                <td class="wd-15p border-bottom-0">
+                                    {% if turno.tipo == 1%}
+                                        8 horas
+                                    {% else %}
+                                        12 horas
+                                    {% endif %}
+                                </td>
+                                <td class="wd-15p border-bottom-0">
+                                    {% if turno.activo %}
+                                        <div class="form-group">
+                                            <label class="custom-switch form-switch">
+                                                <input disabled type="checkbox" name="activo" class="custom-switch-input" checked>
+                                                <span class="custom-switch-indicator"> </span>
+                                                </label>
+                                        </div>
+                                    {% else %}
+                                    <div class="form-group">
+                                        <label class="custom-switch form-switch">
+                                            <input disabled type="checkbox" name="activo" class="custom-switch-input">
+                                            <span class="custom-switch-indicator"> </span>
+                                            </label>
+                                    </div>
+                                    {% endif %}
+                                </td>
+                                <td class="wd-15p border-bottom-0">
+                                    <a class="p-2" data-toggle="tooltip" data-placement="top" title="Editar"
+                                    href="{% url 'core:turno-editar' turno.id %}">
+                                     <i class="fa fa-pencil" style="color: #06415e"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

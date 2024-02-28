@@ -1,12 +1,368 @@
 <li class="slide">
-    <a class="side-menu__item has-link" data-bs-toggle="slide" href="index.html">
+    <a class="side-menu__item has-link" data-bs-toggle="slide" href="{% url 'core:index'%}">
         <i class="side-menu__icon fe fe-home"></i>
         <span class="side-menu__label">Inicio</span>
     </a>
 </li>
+<li class="sub-category">
+    <h3>Generar</h3>
+</li>
 <li class="slide">
-    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)">
-        <i class="side-menu__icon fe fe-user"></i>
-        <span class="side-menu__label">Personas</span>
+    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
+        class="side-menu__icon fe fe-anchor"></i><span
+        class="side-menu__label">Embarque</span>
     </a>
+</li>
+<li class="slide">
+    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
+        class="side-menu__icon ion ion-coffee"></i><span
+        class="side-menu__label">Alimentación</span>
+    </a>
+</li>
+<li class="sub-category">
+    <h3>Gestión</h3>
+</li>
+<li class="slide">
+    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
+        class="side-menu__icon fe fe-user"></i><span
+        class="side-menu__label">Personas</span><i
+        class="angle fe fe-chevron-right"></i>
+    </a>
+    <ul class="slide-menu">
+        <li class="panel sidetab-menu">
+            <div class="tab-menu-heading p-0 pb-2 border-0">
+                <div class="tabs-menu ">
+                    <!-- Tabs -->
+                    <ul class="nav panel-tabs">
+                        <li><a href="#side17" class="d-flex active" data-bs-toggle="tab"><i class="fe fe-monitor me-2"></i><p>Home</p></a></li>
+                        <li><a href="#side18" data-bs-toggle="tab" class="d-flex"><i class="fe fe-message-square me-2"></i><p>Chat</p></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body p-0 border-0">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="side17">
+                        <ul class="sidemenu-list">
+                            <li><a href="{% url 'core:persona-crear' %}" class="slide-item"> Adicionar</a></li>
+                            <li><a href="{% url 'core:persona-listar' %}" class="slide-item"> Listar</a></li>
+                        </ul>
+                        
+                    </div>                    
+                </div>
+            </div>
+        </li>
+    </ul>
+</li>
+<li class="slide">
+    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
+        class="side-menu__icon fe fe-user-x"></i><span
+        class="side-menu__label">Afectaciones Personales</span><i
+        class="angle fe fe-chevron-right"></i>
+    </a>
+    <ul class="slide-menu">
+        <li class="panel sidetab-menu">
+            <div class="tab-menu-heading p-0 pb-2 border-0">
+                <div class="tabs-menu ">
+                    <!-- Tabs -->
+                    <ul class="nav panel-tabs">
+                        <li><a href="#side17" class="d-flex active" data-bs-toggle="tab"><i class="fe fe-monitor me-2"></i><p>Home</p></a></li>
+                        <li><a href="#side18" data-bs-toggle="tab" class="d-flex"><i class="fe fe-message-square me-2"></i><p>Chat</p></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body p-0 border-0">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="side17">
+                        <ul class="sidemenu-list">
+                            <li><a href="{% url 'core:afect_persona-crear' %}" class="slide-item"> Adicionar</a></li>
+                            <li><a href="{% url 'core:afect_persona-listar' %}" class="slide-item"> Listar</a></li>
+                        </ul>
+                        
+                    </div>                    
+                </div>
+            </div>
+        </li>
+    </ul>
+</li>
+<li class="slide">
+    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
+        class="side-menu__icon fe fe-users"></i><span
+        class="side-menu__label">Categorías Personales</span><i
+        class="angle fe fe-chevron-right"></i>
+    </a>
+    <ul class="slide-menu">
+        <li class="panel sidetab-menu">
+            <div class="tab-menu-heading p-0 pb-2 border-0">
+                <div class="tabs-menu ">
+                    <!-- Tabs -->
+                    <ul class="nav panel-tabs">
+                        <li><a href="#side17" class="d-flex active" data-bs-toggle="tab"><i class="fe fe-monitor me-2"></i><p>Home</p></a></li>
+                        <li><a href="#side18" data-bs-toggle="tab" class="d-flex"><i class="fe fe-message-square me-2"></i><p>Chat</p></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body p-0 border-0">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="side17">
+                        <ul class="sidemenu-list">
+                            <li><a href="{% url 'core:cat_persona-crear' %}" class="slide-item"> Adicionar</a></li>
+                            <li><a href="{% url 'core:cat_persona-listar' %}" class="slide-item"> Listar</a></li>
+                        </ul>
+                        
+                    </div>                    
+                </div>
+            </div>
+        </li>
+    </ul>
+</li>
+<li class="slide">
+    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
+        class="side-menu__icon fe fe-wind"></i><span
+        class="side-menu__label">Vacaciones</span><i
+        class="angle fe fe-chevron-right"></i>
+    </a>
+    <ul class="slide-menu">
+        <li class="panel sidetab-menu">
+            <div class="tab-menu-heading p-0 pb-2 border-0">
+                <div class="tabs-menu ">
+                    <!-- Tabs -->
+                    <ul class="nav panel-tabs">
+                        <li><a href="#side17" class="d-flex active" data-bs-toggle="tab"><i class="fe fe-monitor me-2"></i><p>Home</p></a></li>
+                        <li><a href="#side18" data-bs-toggle="tab" class="d-flex"><i class="fe fe-message-square me-2"></i><p>Chat</p></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body p-0 border-0">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="side17">
+                        <ul class="sidemenu-list">
+                            <li><a href="{% url 'core:vacaciones-crear' %}" class="slide-item"> Adicionar</a></li>
+                            <li><a href="{% url 'core:vacaciones-listar' %}" class="slide-item"> Listar</a></li>
+                        </ul>
+                        
+                    </div>                    
+                </div>
+            </div>
+        </li>
+    </ul>
+</li>
+<li class="slide">
+    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
+        class="side-menu__icon fe fe-refresh-ccw"></i><span
+        class="side-menu__label">Rotaciones</span><i
+        class="angle fe fe-chevron-right"></i>
+    </a>
+    <ul class="slide-menu">
+        <li class="panel sidetab-menu">
+            <div class="tab-menu-heading p-0 pb-2 border-0">
+                <div class="tabs-menu ">
+                    <!-- Tabs -->
+                    <ul class="nav panel-tabs">
+                        <li><a href="#side17" class="d-flex active" data-bs-toggle="tab"><i class="fe fe-monitor me-2"></i><p>Home</p></a></li>
+                        <li><a href="#side18" data-bs-toggle="tab" class="d-flex"><i class="fe fe-message-square me-2"></i><p>Chat</p></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body p-0 border-0">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="side17">
+                        <ul class="sidemenu-list">
+                            <li><a href="{% url 'core:rotacion-crear' %}" class="slide-item"> Adicionar</a></li>
+                            <li><a href="{% url 'core:rotacion-listar' %}" class="slide-item"> Listar</a></li>
+                        </ul>
+                        
+                    </div>                    
+                </div>
+            </div>
+        </li>
+    </ul>
+</li>
+<li class="slide">
+    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
+        class="side-menu__icon fe fe-command"></i><span
+        class="side-menu__label">Brigadas</span><i
+        class="angle fe fe-chevron-right"></i>
+    </a>
+    <ul class="slide-menu">
+        <li class="panel sidetab-menu">
+            <div class="tab-menu-heading p-0 pb-2 border-0">
+                <div class="tabs-menu ">
+                    <!-- Tabs -->
+                    <ul class="nav panel-tabs">
+                        <li><a href="#side17" class="d-flex active" data-bs-toggle="tab"><i class="fe fe-monitor me-2"></i><p>Home</p></a></li>
+                        <li><a href="#side18" data-bs-toggle="tab" class="d-flex"><i class="fe fe-message-square me-2"></i><p>Chat</p></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body p-0 border-0">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="side17">
+                        <ul class="sidemenu-list">
+                            <li><a href="{% url 'core:brigada-crear' %}" class="slide-item"> Adicionar</a></li>
+                            <li><a href="{% url 'core:brigada-listar' %}" class="slide-item"> Listar</a></li>
+                        </ul>
+                        
+                    </div>                    
+                </div>
+            </div>
+        </li>
+    </ul>
+</li>
+<li class="sub-category">
+    <h3>Nomencladores</h3>
+</li>
+<li class="slide">
+    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
+        class="side-menu__icon fe fe-layers"></i><span
+        class="side-menu__label">Cargos</span><i
+        class="angle fe fe-chevron-right"></i>
+    </a>
+    <ul class="slide-menu">
+        <li class="panel sidetab-menu">
+            <div class="tab-menu-heading p-0 pb-2 border-0">
+                <div class="tabs-menu ">
+                    <!-- Tabs -->
+                    <ul class="nav panel-tabs">
+                        <li><a href="#side17" class="d-flex active" data-bs-toggle="tab"><i class="fe fe-monitor me-2"></i><p>Home</p></a></li>
+                        <li><a href="#side18" data-bs-toggle="tab" class="d-flex"><i class="fe fe-message-square me-2"></i><p>Chat</p></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body p-0 border-0">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="side17">
+                        <ul class="sidemenu-list">
+                            <li><a href="{% url 'core:cargo-crear' %}" class="slide-item"> Adicionar</a></li>
+                            <li><a href="{% url 'core:cargo-listar' %}" class="slide-item"> Listar</a></li>
+                        </ul>
+                        
+                    </div>                    
+                </div>
+            </div>
+        </li>
+    </ul>
+</li>
+<li class="slide">
+    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
+        class="side-menu__icon fe fe-grid"></i><span
+        class="side-menu__label">Categorias</span><i
+        class="angle fe fe-chevron-right"></i>
+    </a>
+    <ul class="slide-menu">
+        <li class="panel sidetab-menu">
+            <div class="tab-menu-heading p-0 pb-2 border-0">
+                <div class="tabs-menu ">
+                    <!-- Tabs -->
+                    <ul class="nav panel-tabs">
+                        <li><a href="#side17" class="d-flex active" data-bs-toggle="tab"><i class="fe fe-monitor me-2"></i><p>Home</p></a></li>
+                        <li><a href="#side18" data-bs-toggle="tab" class="d-flex"><i class="fe fe-message-square me-2"></i><p>Chat</p></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body p-0 border-0">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="side17">
+                        <ul class="sidemenu-list">
+                            <li><a href="{% url 'core:categoria-crear' %}" class="slide-item"> Adicionar</a></li>
+                            <li><a href="{% url 'core:categoria-listar' %}" class="slide-item"> Listar</a></li>
+                        </ul>
+                        
+                    </div>                    
+                </div>
+            </div>
+        </li>
+    </ul>
+</li>
+<li class="slide">
+    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
+        class="side-menu__icon fe fe-git-pull-request"></i><span
+        class="side-menu__label">Posiciones</span><i
+        class="angle fe fe-chevron-right"></i>
+    </a>
+    <ul class="slide-menu">
+        <li class="panel sidetab-menu">
+            <div class="tab-menu-heading p-0 pb-2 border-0">
+                <div class="tabs-menu ">
+                    <!-- Tabs -->
+                    <ul class="nav panel-tabs">
+                        <li><a href="#side17" class="d-flex active" data-bs-toggle="tab"><i class="fe fe-monitor me-2"></i><p>Home</p></a></li>
+                        <li><a href="#side18" data-bs-toggle="tab" class="d-flex"><i class="fe fe-message-square me-2"></i><p>Chat</p></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body p-0 border-0">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="side17">
+                        <ul class="sidemenu-list">
+                            <li><a href="{% url 'core:posicion-crear' %}" class="slide-item"> Adicionar</a></li>
+                            <li><a href="{% url 'core:posicion-listar' %}" class="slide-item"> Listar</a></li>
+                        </ul>
+                        
+                    </div>                    
+                </div>
+            </div>
+        </li>
+    </ul>
+</li>
+<li class="slide">
+    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
+        class="side-menu__icon fe fe-compass"></i><span
+        class="side-menu__label">Afectaciones</span><i
+        class="angle fe fe-chevron-right"></i>
+    </a>
+    <ul class="slide-menu">
+        <li class="panel sidetab-menu">
+            <div class="tab-menu-heading p-0 pb-2 border-0">
+                <div class="tabs-menu ">
+                    <!-- Tabs -->
+                    <ul class="nav panel-tabs">
+                        <li><a href="#side17" class="d-flex active" data-bs-toggle="tab"><i class="fe fe-monitor me-2"></i><p>Home</p></a></li>
+                        <li><a href="#side18" data-bs-toggle="tab" class="d-flex"><i class="fe fe-message-square me-2"></i><p>Chat</p></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body p-0 border-0">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="side17">
+                        <ul class="sidemenu-list">
+                            <li><a href="{% url 'core:afectacion-crear' %}" class="slide-item"> Adicionar</a></li>
+                            <li><a href="{% url 'core:afectacion-listar' %}" class="slide-item"> Listar</a></li>
+                        </ul>
+                        
+                    </div>                    
+                </div>
+            </div>
+        </li>
+    </ul>
+</li>
+<li class="slide">
+    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
+        class="side-menu__icon fe fe-paperclip"></i><span
+        class="side-menu__label">Turnos</span><i
+        class="angle fe fe-chevron-right"></i>
+    </a>
+    <ul class="slide-menu">
+        <li class="panel sidetab-menu">
+            <div class="tab-menu-heading p-0 pb-2 border-0">
+                <div class="tabs-menu ">
+                    <!-- Tabs -->
+                    <ul class="nav panel-tabs">
+                        <li><a href="#side17" class="d-flex active" data-bs-toggle="tab"><i class="fe fe-monitor me-2"></i><p>Home</p></a></li>
+                        <li><a href="#side18" data-bs-toggle="tab" class="d-flex"><i class="fe fe-message-square me-2"></i><p>Chat</p></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body tabs-menu-body p-0 border-0">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="side17">
+                        <ul class="sidemenu-list">
+                            <li><a href="{% url 'core:turno-crear' %}" class="slide-item"> Adicionar</a></li>
+                            <li><a href="{% url 'core:turno-listar' %}" class="slide-item"> Listar</a></li>
+                        </ul>
+                        
+                    </div>                    
+                </div>
+            </div>
+        </li>
+    </ul>
 </li>
