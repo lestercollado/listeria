@@ -24,7 +24,7 @@
                             <th class="wd-15p border-bottom-0">Expediente</th>
                             <th class="wd-15p border-bottom-0">Persona</th>
                             <th class="wd-15p border-bottom-0">Categoría</th>
-                            <th class="wd-15p border-bottom-0">Activo</th>
+                            <th class="wd-15p border-bottom-0">Principal</th>
                             <th class="wd-25p border-bottom-0"></th>
                         </tr>
                     </thead>
@@ -35,7 +35,7 @@
                                 <td class="wd-15p border-bottom-0">{{cp.persona}}</td>
                                 <td class="wd-15p border-bottom-0">{{cp.categoria.nombre}}</td>
                                 <td class="wd-15p border-bottom-0">
-                                    {% if cp.activo %}
+                                    {% if cp.principal %}
                                         <div class="form-group">
                                             <label class="custom-switch form-switch">
                                                 <input disabled type="checkbox" name="activo" class="custom-switch-input" checked>

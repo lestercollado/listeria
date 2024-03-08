@@ -1,0 +1,231 @@
+
+{% extends 'base.html' %}
+
+{% block title %}{{titulo_page}}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Embarque</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Generar Embarque</li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Solicitar Embarque</h3>
+            </div>
+            <div class="row card-body">{% csrf_token %}
+                <form class="needs-validation" action="{% url 'core:gen-embarque' %}" method="post" enctype="multipart/form-data" id="uniForm">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-4 col-xl-4 form-group">
+                            <h4><i class="fa fa-calendar"></i> Turno</h4>
+                            <select class="form-control select2-show-search form-select" data-placeholder="Selecciona un turno" name="turno" id="turno" required>
+                                <option label="Selecciona un turno"></option>
+                                {% for turno in turnos%}
+                                    <option value="{{turno.id}}" {% if brigadas.turno.id == turno.id %} selected {% endif %}>{{turno.nombre}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <hr>
+                        <h4><i class="fa fa-ship"></i> Barco</h4>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="manos" name="manos">
+                                <label for="nombre">Manos</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="sts" name="sts">
+                                <label for="nombre">STS</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="rtg_barco" name="rtg_barco">
+                                <label for="nombre">RTG</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="ech_barco" name="ech_barco">
+                                <label for="nombre">ECH</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="ct_barco" name="ct_barco">
+                                <label for="nombre">CT</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="est_barco" name="est_barco">
+                                <label for="nombre">Estibadores</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="tar_barco" name="tar_barco">
+                                <label for="nombre">Tarjadores</label>
+                            </div>
+                        </div>
+                        <hr>
+                        <h4><i class="fa fa-truck"></i> Monta</h4>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="rtg_monta" name="rtg_monta">
+                                <label for="nombre">RTG</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="ech_monta" name="ech_monta">
+                                <label for="nombre">ECH</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="est_monta" name="est_monta">
+                                <label for="nombre">Estibadores</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="tar_monta" name="tar_monta">
+                                <label for="nombre">Tarjadores</label>
+                            </div>
+                        </div>
+                        <hr>
+                        <h4><i class="fa fa-train"></i> Tren</h4>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="rmg_tren" name="rmg_tren">
+                                <label for="nombre">RMG</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="rtg_tren" name="rtg_tren">
+                                <label for="nombre">RTG</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="ech_tren" name="ech_tren">
+                                <label for="nombre">ECH</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="ct_tren" name="ct_tren">
+                                <label for="nombre">CT</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="est_tren" name="est_tren">
+                                <label for="nombre">Estibadores</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="tar_tren" name="tar_tren">
+                                <label for="nombre">Tarjadores</label>
+                            </div>
+                        </div>
+                        <hr>
+                        <h4><i class="fa fa-cubes"></i> ZAL</h4>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="rtg_zal" name="rtg_zal">
+                                <label for="nombre">RTG</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="ct_zal" name="ct_zal">
+                                <label for="nombre">CT</label>
+                            </div>
+                        </div>
+                        <hr>
+                        <h4><i class="fa fa-bolt"></i> Fregado</h4>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="rtg_fregado" name="rtg_fregado">
+                                <label for="nombre">RTG</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="ech_fregado" name="ech_fregado">
+                                <label for="nombre">ECH</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="ct_fregado" name="ct_fregado">
+                                <label for="nombre">CT</label>
+                            </div>
+                        </div>
+                        <hr>
+                        <h4><i class="fa fa-braille"></i> Remociones</h4>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="rtg_remocion" name="rtg_remocion">
+                                <label for="nombre">RTG</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="ech_remocion" name="ech_remocion">
+                                <label for="nombre">ECH</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="ct_remocion" name="ct_remocion">
+                                <label for="nombre">CT</label>
+                            </div>
+                        </div>         
+                        <hr>
+                        <h4><i class="fa fa-server"></i> Otros servicios</h4>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="mc_servicios" name="mc_servicios">
+                                <label for="nombre">MC</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="rmg_servicios" name="rmg_servicios">
+                                <label for="nombre">RMG</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="est_servicios" name="est_servicios">
+                                <label for="nombre">Estibadores</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xl-1 form-group">
+                            <div class="form-floating">
+                                <input autocomplete="off" placeholder="" type="number" class="form-control" id="ct_servicios" name="ct_servicios">
+                                <label for="nombre">CT</label>
+                            </div>
+                        </div>           
+                    <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" value="actualizar" name="guardar">Generar
+                    </button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

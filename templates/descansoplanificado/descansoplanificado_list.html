@@ -6,7 +6,8 @@
 {% block breadcrumb %}
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="javascript:void(0)">Inicio</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Vacaciones</li>
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Descanso Planificado</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Insertar Descanso Planificado</li>
     </ol>
 {% endblock %}
 
@@ -15,7 +16,7 @@
     <div class="col-md-12 col-xl-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Listar Vacaciones</h3>
+                <h3 class="card-title">Listar Descanso Planificado</h3>
             </div>
             <div class="card-body">{% csrf_token %}
                 <table class="table table-bordered text-nowrap border-bottom" id="responsive-datatable">
@@ -23,21 +24,19 @@
                         <tr>
                             <th class="wd-15p border-bottom-0">Expediente</th>
                             <th class="wd-15p border-bottom-0">Persona</th>
-                            <th class="wd-15p border-bottom-0">Fecha Inicio</th>
-                            <th class="wd-20p border-bottom-0">Fecha Fin</th>
+                            <th class="wd-20p border-bottom-0">Fecha</th>
                             <th class="wd-25p border-bottom-0"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for vac in vacaciones %}
+                        {% for dp in descansoplanificados %}
                             <tr>
-                                <td class="wd-15p border-bottom-0">{{vac.persona.expediente}}</td>
-                                <td class="wd-15p border-bottom-0">{{vac.persona}}</td>
-                                <td class="wd-15p border-bottom-0">{{vac.fecha_inicio|date:'d-m-Y'}}</td>
-                                <td class="wd-15p border-bottom-0">{{vac.fecha_fin|date:'d-m-Y'}}</td>
+                                <td class="wd-15p border-bottom-0">{{dp.persona.expediente}}</td>
+                                <td class="wd-15p border-bottom-0">{{dp.persona}}</td>
+                                <td class="wd-15p border-bottom-0">{{dp.fecha|date:'d-m-Y'}}</td>
                                 <td class="wd-15p border-bottom-0">
                                     <a class="p-2" data-toggle="tooltip" data-placement="top" title="Editar"
-                                    href="{% url 'core:vacaciones-editar' vac.id %}">
+                                    href="{% url 'core:descansoplanificado-editar' dp.id %}">
                                      <i class="fa fa-pencil" style="color: #06415e"></i>
                                     </a>
                                 </td>

@@ -22,10 +22,10 @@
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="tipo">Persona</label>
-                        <select class="form-control custom-select form-select select2" data-bs-placeholder="Select" name="persona" id="persona" required>
+                        <select class="form-control select2-show-search form-select" data-bs-placeholder="Select" name="persona" id="persona" required>
                             <option value="">Seleccione una persona</option>
                             {% for persona in personas%}
-                                <option value="{{persona.id}}" {% if cat_personas.persona.id == persona.id %} selected {% endif %}>{{persona}}</option>
+                                <option value="{{persona.id}}" {% if cat_personas.persona.id == persona.id %} selected {% endif %}>{{persona.expediente}} {{persona}}</option>
                             {% endfor %}
                         </select>
                     </div>

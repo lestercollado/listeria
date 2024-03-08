@@ -8,12 +8,34 @@ from core.models import *
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
-from datetime import datetime
+from datetime import datetime, timedelta
 
 def index(request):
   personas = Persona.objects.all()
+  certificados = AfectacionPersona.objects.filter(afectacion__id = 2)
+  vacaciones = AfectacionPersona.objects.filter(afectacion__id = 1,fecha_fin__gte = datetime.now())
+  descansos = DescansoPlanificado.objects.filter(fecha__gte = datetime.now())
+  
+  for persona in personas:
+    hoy = datetime.now()
+    hoy_anterior = datetime.now() - timedelta(days=6)
+    cant_turnos = Rotacion.objects.filter(persona = persona, fecha__lte = hoy, fecha__gte = hoy_anterior)
+    if len(cant_turnos) == 7:
+      dp_exits = DescansoPlanificado.objects.filter(fecha = datetime.now() + timedelta(days=1), persona = persona)
+      if len(dp_exits) == 0:
+        dp = DescansoPlanificado()
+        dp.fecha = datetime.now() + timedelta(days=1)
+        dp.persona = persona
+        dp.save()  
+    
+  context = {}
+  context["personas"] = personas
+  context["certificados"] = certificados
+  context["vacaciones"] = vacaciones
+  context["descansos"] = descansos
+  
   template = loader.get_template('base.html')
-  return HttpResponse(template.render({'personas': personas}, request))
+  return HttpResponse(template.render(context, request))
 
 class CrearPersonaView(TemplateView):
     template_name = "personas/persona_form.html"
@@ -309,51 +331,49 @@ class ListarTurnoView(TemplateView):
       context["turnos"] = Turno.objects.all()
       return context
     
-class CrearVacacionesView(TemplateView):
-    template_name = "vacaciones/vacaciones_form.html"
+class CrearDescansoPlanificadoView(TemplateView):
+    template_name = "descansoplanificado/descansoplanificado_form.html"
     
     @transaction.atomic()
     def post(self, request):      
-      Vacaciones.objects.create(
+      DescansoPlanificado.objects.create(
           persona_id = self.request.POST.get("persona"),
-          fecha_inicio = self.request.POST.get("fecha_inicio"),
-          fecha_fin = self.request.POST.get("fecha_fin"),
+          fecha = self.request.POST.get("fecha"),
       )
-      return HttpResponseRedirect(reverse("core:vacaciones-listar"))      
+      return HttpResponseRedirect(reverse("core:descansoplanificado-listar"))      
 
     def get_context_data(self, **kwargs):
-      context = super(CrearVacacionesView, self).get_context_data(**kwargs)
-      context["titulo_page"] = "Vacaciones"   
+      context = super(CrearDescansoPlanificadoView, self).get_context_data(**kwargs)
+      context["titulo_page"] = "Descanso Planificado"   
       context["personas"] = Persona.objects.all() 
       return context
     
-class EditarVacacionesView(TemplateView):
-    template_name = "vacaciones/vacaciones_form.html"
+class EditarDescansoPlanificadoView(TemplateView):
+    template_name = "descansoplanificado/descansoplanificadoform.html"
     
     @transaction.atomic()
     def post(self, request, pk):
-      turno = Vacaciones.objects.filter(pk=pk).first()
+      turno = DescansoPlanificado.objects.filter(pk=pk).first()
       turno.persona_id = self.request.POST.get("persona")
-      turno.fecha_inicio = datetime.strptime(self.request.POST.get("fecha_inicio"), '%Y-%m-%d')
-      turno.fecha_fin = datetime.strptime(self.request.POST.get("fecha_fin"), '%Y-%m-%d')
+      turno.fecha = datetime.strptime(self.request.POST.get("fecha"), '%Y-%m-%d')
       turno.save()      
-      return HttpResponseRedirect(reverse("core:vacaciones-listar"))      
+      return HttpResponseRedirect(reverse("core:descansoplanificado-listar"))      
 
     def get_context_data(self, **kwargs):
-      context = super(EditarVacacionesView, self).get_context_data(**kwargs)
-      vacaciones = Vacaciones.objects.get(id=kwargs["pk"])
-      context["titulo_page"] = "Vacaciones"   
-      context["vacaciones"] = vacaciones
+      context = super(EditarDescansoPlanificadoView, self).get_context_data(**kwargs)
+      descansoplanificados = DescansoPlanificado.objects.get(id=kwargs["pk"])
+      context["titulo_page"] = "Descanso Planificado"   
+      context["descansoplanificados"] = descansoplanificados
       context["personas"] = Persona.objects.all()
       return context
     
-class ListarVacacionesView(TemplateView):
-    template_name = "vacaciones/vacaciones_list.html"
+class ListarDescansoPlanificadoView(TemplateView):
+    template_name = "descansoplanificado/descansoplanificado_list.html"
 
     def get_context_data(self, **kwargs):
-      context = super(ListarVacacionesView, self).get_context_data(**kwargs)
-      context["titulo_page"] = "Vacaciones"   
-      context["vacaciones"] = Vacaciones.objects.all()
+      context = super(ListarDescansoPlanificadoView, self).get_context_data(**kwargs)
+      context["titulo_page"] = "Descanso Planificado"   
+      context["descansoplanificados"] = DescansoPlanificado.objects.all()
       return context
     
 class CrearAfectacionPersonaView(TemplateView):
@@ -417,7 +437,7 @@ class CrearCategoriaPersonaView(TemplateView):
           categoria_id = self.request.POST.get("categoria"),
           principal = True if self.request.POST.get("activo") == "on" else False,
       )
-      return HttpResponseRedirect(reverse("core:cat_persona-listar"))      
+      return HttpResponseRedirect(reverse("core:cat_persona-crear"))      
 
     def get_context_data(self, **kwargs):
       context = super(CrearCategoriaPersonaView, self).get_context_data(**kwargs)
@@ -519,7 +539,7 @@ class CrearBrigadaView(TemplateView):
           turno_id = self.request.POST.get("turno"),
           orden = self.request.POST.get("orden"),
       )
-      return HttpResponseRedirect(reverse("core:brigada-listar"))      
+      return HttpResponseRedirect(reverse("core:brigada-crear"))      
 
     def get_context_data(self, **kwargs):
       context = super(CrearBrigadaView, self).get_context_data(**kwargs)
@@ -557,3 +577,243 @@ class ListarBrigadaView(TemplateView):
       context["titulo_page"] = "Brigadas"   
       context["brigadas"] = Brigada.objects.all()
       return context
+    
+def generarEmbarqueView(request):
+  template = loader.get_template('embarque/embarque_form.html')
+  turnos = Turno.objects.filter(activo = True, tipo = 1)
+  return HttpResponse(template.render({'turnos': turnos,'titulo_page': "Generar embarque"}, request))
+
+def generarEmbarque(request):
+  turno = request.POST.get('turno')
+  
+  # Barco
+  sts = int(request.POST.get('sts') if request.POST.get('sts') else 0)
+  manos = int(request.POST.get('manos') if request.POST.get('manos') else 0)
+  rtg_barco = int(request.POST.get('rtg_barco') if request.POST.get('rtg_barco') else 0)
+  ech_barco = int(request.POST.get('ech_barco') if request.POST.get('ech_barco') else 0)
+  ct_barco = int(request.POST.get('ct_barco') if request.POST.get('ct_barco') else 0)
+  est_barco = int(request.POST.get('est_barco') if request.POST.get('est_barco') else 0)
+  tar_barco = int(request.POST.get('tar_barco') if request.POST.get('tar_barco') else 0)
+  
+  # Tren
+  rmg_tren = int(request.POST.get('rmg_tren') if request.POST.get('rmg_tren') else 0)
+  rtg_tren = int(request.POST.get('rtg_tren') if request.POST.get('rtg_tren') else 0)
+  ct_tren = int(request.POST.get('ct_tren') if request.POST.get('ct_tren') else 0)
+  ech_tren = int(request.POST.get('ech_tren') if request.POST.get('ech_tren') else 0)
+  est_tren = int(request.POST.get('est_tren') if request.POST.get('est_tren') else 0)
+  tar_tren = int(request.POST.get('tar_tren') if request.POST.get('tar_tren') else 0)
+  
+  # Monta
+  rtg_monta = int(request.POST.get('rtg_monta') if request.POST.get('rtg_monta') else 0)
+  ech_monta = int(request.POST.get('ech_monta') if request.POST.get('ech_monta') else 0)
+  est_monta = int(request.POST.get('est_monta') if request.POST.get('est_monta') else 0)
+  tar_monta = int(request.POST.get('tar_monta') if request.POST.get('tar_monta') else 0)
+  
+  # ZAL
+  rtg_zal = int(request.POST.get('rtg_zal') if request.POST.get('rtg_zal') else 0)
+  ct_zal = int(request.POST.get('ct_zal') if request.POST.get('ct_zal') else 0)
+  
+  # Romociones
+  rtg_remocion = int(request.POST.get('rtg_remocion') if request.POST.get('rtg_remocion') else 0)
+  ech_remocion = int(request.POST.get('ech_remocion') if request.POST.get('ech_remocion') else 0)
+  ct_remocion = int(request.POST.get('ct_remocion') if request.POST.get('ct_remocion') else 0)
+  
+  # Fregado
+  rtg_fregado = int(request.POST.get('rtg_fregado') if request.POST.get('rtg_fregado') else 0)
+  ech_fregado = int(request.POST.get('ech_fregado') if request.POST.get('ech_fregado') else 0)
+  ct_fregado = int(request.POST.get('ct_fregado') if request.POST.get('ct_fregado') else 0)
+  
+  # Servicios
+  rmg_servicios = int(request.POST.get('rmg_servicios') if request.POST.get('rmg_servicios') else 0)
+  ct_servicios = int(request.POST.get('ct_servicios') if request.POST.get('ct_servicios') else 0)
+  est_servicios = int(request.POST.get('est_servicios') if request.POST.get('est_servicios') else 0)
+  mc_servicios = int(request.POST.get('mc_servicios') if request.POST.get('mc_servicios') else 0)
+  
+  # Obtener STS
+  if sts > 0:
+    perso_categoria = CategoriaPersona.objects.filter(categoria__id = 1)
+    perso_brigada = Brigada.objects.filter(persona__id__in = perso_categoria.values('persona_id'), turno__id = int(turno))
+    
+    count_need = 0
+    for perso in perso_brigada:
+        if count_need < sts:
+          afectacion = AfectacionPersona.objects.filter(persona__id = perso.id,fecha_fin__gt=datetime.now())
+          descansoplanificado = DescansoPlanificado.objects.filter(persona__id = perso.id,fecha=datetime.now())
+          if len(afectacion) == 0 and len(descansoplanificado) == 0:
+            rotacion = Rotacion()
+            rotacion.fecha = datetime.now()
+            rotacion.persona_id = perso.id
+            rotacion.posicion_id = 4
+            rotacion.turno_id = int(turno)
+            rotacion.categoria_id = 1
+            rotacion.save()
+            count_need +=1
+            
+  # Obtener RTG
+  if rtg_barco > 0:
+    perso_categoria = CategoriaPersona.objects.filter(categoria__id = 2)
+    perso_brigada = Brigada.objects.filter(persona__id__in = perso_categoria.values('persona_id'), turno__id = int(turno))
+    
+    count_need = 0
+    for perso in perso_brigada:
+        if count_need < rtg_barco:
+          afectacion = AfectacionPersona.objects.filter(persona__id = perso.id,fecha_fin__gt=datetime.now())
+          descansoplanificado = DescansoPlanificado.objects.filter(persona__id = perso.id,fecha=datetime.now())
+          if len(afectacion) == 0 and len(descansoplanificado) == 0:
+            rotacion = Rotacion()
+            rotacion.fecha = datetime.now()
+            rotacion.persona_id = perso.id
+            rotacion.posicion_id = 4
+            rotacion.turno_id = int(turno)
+            rotacion.categoria_id = 2
+            rotacion.save()
+            count_need +=1
+            
+  # Obtener ECH
+  if ech_barco > 0:
+    perso_categoria = CategoriaPersona.objects.filter(categoria__id = 3)
+    perso_brigada = Brigada.objects.filter(persona__id__in = perso_categoria.values('persona_id'), turno__id = int(turno))
+    
+    count_need = 0
+    for perso in perso_brigada:
+        if count_need < ech_barco:
+          afectacion = AfectacionPersona.objects.filter(persona__id = perso.id,fecha_fin__gt=datetime.now())
+          descansoplanificado = DescansoPlanificado.objects.filter(persona__id = perso.id,fecha=datetime.now())
+          if len(afectacion) == 0 and len(descansoplanificado) == 0:
+            rotacion = Rotacion()
+            rotacion.fecha = datetime.now()
+            rotacion.persona_id = perso.id
+            rotacion.posicion_id = 4
+            rotacion.turno_id = int(turno)
+            rotacion.categoria_id = 3
+            rotacion.save()
+            count_need +=1
+            
+  # Obtener CT
+  if ct_barco > 0:
+    perso_categoria = CategoriaPersona.objects.filter(categoria__id = 6)
+    perso_brigada = Brigada.objects.filter(persona__id__in = perso_categoria.values('persona_id'), turno__id = int(turno))
+    
+    count_need = 0
+    for perso in perso_brigada:
+        if count_need < ct_barco:
+          afectacion = AfectacionPersona.objects.filter(persona__id = perso.id,fecha_fin__gt=datetime.now())
+          descansoplanificado = DescansoPlanificado.objects.filter(persona__id = perso.id,fecha=datetime.now())
+          if len(afectacion) == 0 and len(descansoplanificado) == 0:
+            rotacion = Rotacion()
+            rotacion.fecha = datetime.now()
+            rotacion.persona_id = perso.id
+            rotacion.posicion_id = 4
+            rotacion.turno_id = int(turno)
+            rotacion.categoria_id = 6
+            rotacion.save()
+            count_need +=1
+            
+  # Obtener EST
+  if est_barco > 0:
+    perso_categoria = CategoriaPersona.objects.filter(categoria__id = 7)
+    perso_brigada = Brigada.objects.filter(persona__id__in = perso_categoria.values('persona_id'), turno__id = int(turno))
+    
+    count_need = 0
+    for perso in perso_brigada:
+        if count_need < est_barco:
+          afectacion = AfectacionPersona.objects.filter(persona__id = perso.id,fecha_fin__gt=datetime.now())
+          descansoplanificado = DescansoPlanificado.objects.filter(persona__id = perso.id,fecha=datetime.now())
+          if len(afectacion) == 0 and len(descansoplanificado) == 0:
+            rotacion = Rotacion()
+            rotacion.fecha = datetime.now()
+            rotacion.persona_id = perso.id
+            rotacion.posicion_id = 4
+            rotacion.turno_id = int(turno)
+            rotacion.categoria_id = 7
+            rotacion.save()
+            count_need +=1
+  
+  # Obtener T
+  if tar_barco > 0:
+    perso_categoria = CategoriaPersona.objects.filter(categoria__id = 10)
+    perso_brigada = Brigada.objects.filter(persona__id__in = perso_categoria.values('persona_id'), turno__id = int(turno))
+    
+    count_need = 0
+    for perso in perso_brigada:
+        if count_need < tar_barco:
+          afectacion = AfectacionPersona.objects.filter(persona__id = perso.id,fecha_fin__gt=datetime.now())
+          descansoplanificado = DescansoPlanificado.objects.filter(persona__id = perso.id,fecha=datetime.now())
+          if len(afectacion) == 0 and len(descansoplanificado) == 0:
+            rotacion = Rotacion()
+            rotacion.fecha = datetime.now()
+            rotacion.persona_id = perso.id
+            rotacion.posicion_id = 4
+            rotacion.turno_id = int(turno)
+            rotacion.categoria_id = 10
+            rotacion.save()
+            count_need +=1
+            
+  # Obtener RMG
+  if rmg_tren > 0:
+    perso_categoria = CategoriaPersona.objects.filter(categoria__id = 5)
+    perso_brigada = Brigada.objects.filter(persona__id__in = perso_categoria.values('persona_id'), turno__id = int(turno))
+    
+    count_need = 0
+    for perso in perso_brigada:
+        if count_need < rmg_tren:
+          afectacion = AfectacionPersona.objects.filter(persona__id = perso.id,fecha_fin__gt=datetime.now())
+          descansoplanificado = DescansoPlanificado.objects.filter(persona__id = perso.id,fecha=datetime.now())
+          if len(afectacion) == 0 and len(descansoplanificado) == 0:
+            rotacion = Rotacion()
+            rotacion.fecha = datetime.now()
+            rotacion.persona_id = perso.id
+            rotacion.posicion_id = 5
+            rotacion.turno_id = int(turno)
+            rotacion.categoria_id = 5
+            rotacion.save()
+            count_need +=1
+  
+  rotaciones_sts = Rotacion.objects.filter(fecha = datetime.now(), categoria__id = 1)
+  rotaciones_rtg = Rotacion.objects.filter(fecha = datetime.now(), categoria__id = 2)
+  rotaciones_rmg = Rotacion.objects.filter(fecha = datetime.now(), categoria__id = 5)
+  rotaciones_ech = Rotacion.objects.filter(fecha = datetime.now(), categoria__id = 3)
+  rotaciones_ct = Rotacion.objects.filter(fecha = datetime.now(), categoria__id = 6)
+  rotaciones_est = Rotacion.objects.filter(fecha = datetime.now(), categoria__id = 7)
+  rotaciones_t = Rotacion.objects.filter(fecha = datetime.now(), categoria__id = 10)
+  all_rotaciones = Rotacion.objects.filter(fecha = datetime.now())
+  
+  context = {}
+  context["rotaciones_sts"] = rotaciones_sts
+  context["rotaciones_rtg"] = rotaciones_rtg
+  context["rotaciones_rmg"] = rotaciones_rmg
+  context["rotaciones_ech"] = rotaciones_ech
+  context["rotaciones_ct"] = rotaciones_ct
+  context["rotaciones_est"] = rotaciones_est
+  context["rotaciones_t"] = rotaciones_t
+  context["all_rotaciones"] = len(all_rotaciones)
+  context["fecha"] = datetime.now()
+  context["titulo_page"] = "Generar embarque"
+  
+  template = loader.get_template('embarque/embarque_list.html')
+  return HttpResponse(template.render(context, request))
+
+def ListEmbarqueView(request):
+  rotaciones_sts = Rotacion.objects.filter(fecha = datetime.now(), categoria__id = 1)
+  rotaciones_rtg = Rotacion.objects.filter(fecha = datetime.now(), categoria__id = 2)
+  rotaciones_rmg = Rotacion.objects.filter(fecha = datetime.now(), categoria__id = 5)
+  rotaciones_ech = Rotacion.objects.filter(fecha = datetime.now(), categoria__id = 3)
+  rotaciones_ct = Rotacion.objects.filter(fecha = datetime.now(), categoria__id = 6)
+  rotaciones_est = Rotacion.objects.filter(fecha = datetime.now(), categoria__id = 7)
+  rotaciones_t = Rotacion.objects.filter(fecha = datetime.now(), categoria__id = 10)
+  all_rotaciones = Rotacion.objects.filter(fecha = datetime.now())
+  
+  context = {}
+  context["rotaciones_sts"] = rotaciones_sts
+  context["rotaciones_rtg"] = rotaciones_rtg
+  context["rotaciones_rmg"] = rotaciones_rmg
+  context["rotaciones_ech"] = rotaciones_ech
+  context["rotaciones_ct"] = rotaciones_ct
+  context["rotaciones_est"] = rotaciones_est
+  context["rotaciones_t"] = rotaciones_t
+  context["all_rotaciones"] = len(all_rotaciones)
+  context["fecha"] = datetime.now()
+  context["titulo_page"] = "Listar embarque"
+  
+  template = loader.get_template('embarque/embarque_list.html')
+  return HttpResponse(template.render(context, request))

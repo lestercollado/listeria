@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{titulo_page}}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Embarque</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Listar Embarque</li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Embarque</h3>
+            </div>
+            <div class="card-body row">
+                <h5><b>Total de Operadores:</b> {{all_rotaciones}} | <b>Listero:</b> {{user}} | <b>Fecha:</b> {{fecha|date:'d-m-Y'}}</h5>
+                {% csrf_token %}
+                <div class="col-md-1 col-xl-1">
+                    <table style="text-align: center" class="table table-bordered text-nowrap border-bottom">
+                        <thead>
+                            <tr>
+                                <th colspan="3" style="text-align: center; background-color: #d4e4ff" class="wd-15p border-bottom-0">STS</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; background-color: #e8f1ff;" class="wd-15p border-bottom-0">Exp</th>
+                                <th style="text-align: center; background-color: #e8f1ff" class="wd-15p border-bottom-0">UBIC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for rotacion in rotaciones_sts %}
+                                <tr>
+                                    <td class="wd-15p border-bottom-0">{{rotacion.persona.expediente}}</td>
+                                    <td class="wd-15p border-bottom-0">{{rotacion.posicion.codigo}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-1 col-xl-1">
+                    <table style="text-align: center" class="table table-bordered text-nowrap border-bottom">
+                        <thead>
+                            <tr>
+                                <th colspan="3" style="text-align: center; background-color: #d4e4ff" class="wd-15p border-bottom-0">RTG</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; background-color: #e8f1ff" class="wd-15p border-bottom-0">Exp</th>
+                                <th style="text-align: center; background-color: #e8f1ff" class="wd-15p border-bottom-0">UBIC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for rotacion in rotaciones_rtg %}
+                                <tr>
+                                    <td class="wd-15p border-bottom-0">{{rotacion.persona.expediente}}</td>
+                                    <td class="wd-15p border-bottom-0">{{rotacion.posicion.codigo}}</td> 
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-1 col-xl-1">
+                    <table style="text-align: center" class="table table-bordered text-nowrap border-bottom">
+                        <thead>
+                            <tr>
+                                <th colspan="3" style="text-align: center; background-color: #d4e4ff" class="wd-15p border-bottom-0">RMG</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; background-color: #e8f1ff" class="wd-15p border-bottom-0">Exp</th>
+                                <th style="text-align: center; background-color: #e8f1ff" class="wd-15p border-bottom-0">UBIC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for rotacion in rotaciones_rmg %}
+                                <tr>
+                                    <td class="wd-15p border-bottom-0">{{rotacion.persona.expediente}}</td>
+                                    <td class="wd-15p border-bottom-0">{{rotacion.posicion.codigo}}</td> 
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-1 col-xl-1">
+                    <table style="text-align: center" class="table table-bordered text-nowrap border-bottom">
+                        <thead>
+                            <tr>
+                                <th colspan="3" style="text-align: center; background-color: #d4e4ff" class="wd-15p border-bottom-0">CT</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; background-color: #e8f1ff" class="wd-15p border-bottom-0">Exp</th>
+                                <th style="text-align: center; background-color: #e8f1ff" class="wd-15p border-bottom-0">UBIC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for rotacion in rotaciones_ct %}
+                                <tr>
+                                    <td class="wd-15p border-bottom-0">{{rotacion.persona.expediente}}</td>
+                                    <td class="wd-15p border-bottom-0">{{rotacion.posicion.codigo}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-1 col-xl-1">
+                    <table style="text-align: center" class="table table-bordered text-nowrap border-bottom">
+                        <thead>
+                            <tr>
+                                <th colspan="3" style="text-align: center; background-color: #d4e4ff" class="wd-15p border-bottom-0">EST</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; background-color: #e8f1ff" class="wd-15p border-bottom-0">Exp</th>
+                                <th style="text-align: center; background-color: #e8f1ff" class="wd-15p border-bottom-0">UBIC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for rotacion in rotaciones_est %}
+                                <tr>
+                                    <td class="wd-15p border-bottom-0">{{rotacion.persona.expediente}}</td>
+                                    <td class="wd-15p border-bottom-0">{{rotacion.posicion.codigo}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-1 col-xl-1">
+                    <table style="text-align: center" class="table table-bordered text-nowrap border-bottom">
+                        <thead>
+                            <tr>
+                                <th colspan="3" style="text-align: center; background-color: #d4e4ff" class="wd-15p border-bottom-0">ECH</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; background-color: #e8f1ff" class="wd-15p border-bottom-0">Exp</th>
+                                <th style="text-align: center; background-color: #e8f1ff" class="wd-15p border-bottom-0">UBIC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for rotacion in rotaciones_ech %}
+                                <tr>
+                                    <td class="wd-15p border-bottom-0">{{rotacion.persona.expediente}}</td>
+                                    <td class="wd-15p border-bottom-0">{{rotacion.posicion.codigo}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-1 col-xl-1">
+                    <table style="text-align: center" class="table table-bordered text-nowrap border-bottom">
+                        <thead>
+                            <tr>
+                                <th colspan="3" style="text-align: center; background-color: #d4e4ff" class="wd-15p border-bottom-0">T</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; background-color: #e8f1ff" class="wd-15p border-bottom-0">Exp</th>
+                                <th style="text-align: center; background-color: #e8f1ff" class="wd-15p border-bottom-0">UBIC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for rotacion in rotaciones_t %}
+                                <tr>
+                                    <td class="wd-15p border-bottom-0">{{rotacion.persona.expediente}}</td>
+                                    <td class="wd-15p border-bottom-0">{{rotacion.posicion.codigo}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

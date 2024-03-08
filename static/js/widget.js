@@ -3,8 +3,8 @@ $(function () {
 
     /* Circle-progress */
     $('#circle').circleProgress({
-        value: 0.85,
-        size: 70,
+        value: 1,
+        size: 85,
         fill: {
             color: ["#05c3fb"]
         }
@@ -14,7 +14,7 @@ $(function () {
     /* Circle-progress-1 */
     $('#circle-1').circleProgress({
         value: 1,
-        size: 70,
+        size: 85,
         fill: {
             color: ["#09ad95"]
         }
@@ -23,8 +23,8 @@ $(function () {
 
     /* Circle-progress-2 */
     $('#circle-2').circleProgress({
-        value: 0.74,
-        size: 70,
+        value: 1,
+        size: 85,
         fill: {
             color: ["#f7b731"]
         }

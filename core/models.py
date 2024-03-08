@@ -88,13 +88,12 @@ class Turno(models.Model):
     def __str__(self):
         return self.name + " - " + self.tipo
     
-class Vacaciones(models.Model):
+class DescansoPlanificado(models.Model):
     persona = models.ForeignKey(Persona, on_delete=models.CASCADE)
-    fecha_inicio = models.DateField()
-    fecha_fin = models.DateField()
+    fecha = models.DateField()
     class Meta:
-        verbose_name = "Vacaciones"
-        verbose_name_plural = "Vacaciones"
+        verbose_name = "Descanso Planificado"
+        verbose_name_plural = "Descansos Planificados"
 
     def __str__(self):
         return self.persona
@@ -103,7 +102,7 @@ class AfectacionPersona(models.Model):
     persona = models.ForeignKey(Persona, on_delete=models.CASCADE)
     afectacion = models.ForeignKey(Afectacion, on_delete=models.CASCADE)
     fecha_inicio = models.DateField()
-    fecha_fin = models.DateField()
+    fecha_fin = models.DateField(null = True)
     class Meta:
         verbose_name = "Afectacion_Persona"
         verbose_name_plural = "Afectaciones_Persona"
@@ -125,7 +124,8 @@ class CategoriaPersona(models.Model):
 class Rotacion(models.Model):
     persona = models.ForeignKey(Persona, on_delete=models.CASCADE)
     turno = models.ForeignKey(Turno, on_delete=models.CASCADE)
-    posicion = models.ForeignKey(Posicion, on_delete=models.CASCADE)    
+    posicion = models.ForeignKey(Posicion, on_delete=models.CASCADE)
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     fecha = models.DateField()
     class Meta:
         verbose_name = "Rotación"
